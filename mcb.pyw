@@ -3,22 +3,60 @@
 # Usage: py.exe mcb.pyw save <keyword> - Saves keyword to clipboard.
 #        py.exe mcb.pyw list - Loads all keywords to clipboard.
 #        py.exe mcb.pyw <keyword> - Loads keyword to clipboard.
+#        py.exe mcb.pyw delete <keyword> - Deletes content from clipboard.
+#        py.exe mcb.pyw clear - Resets clipboard.
 
 import shelve, pyperclip, sys
 
-mcbShelf = shelve.open('mcbtemp')
+mcb_shelf = shelve.open('E:/my_projects/pythonScripts/multiclipboard/mcbtemp')
+
+# Hoisted helper function
+def ask_again():
+    user_input = input('enter "Y" to clear, or "n" to cancel ')
+    if user_input == 'Y':
+        mcb_shelf.clear()
+        print('clipboard cleared')
+    elif user_input.lower() == 'n':
+        print('operation canceled')
+    else:
+        ask_again()
 
 # Save clipboard content
 if len(sys.argv) == 3 and sys.argv[1].lower() == 'save':
-    mcbShelf[sys.argv[2]] = pyperclip.paste()
-    print('saved')
+    mcb_shelf[sys.argv[2]] = pyperclip.paste()
+    print('saved as:', sys.argv[2])
+
+# Delete content from clipboard
+elif len(sys.argv) == 3 and sys.argv[1].lower() == 'delete':
+    if sys.argv[2] in mcb_shelf:
+        del mcb_shelf[sys.argv[2]]
+        print(sys.argv[2], 'has been deleted')
+    else:
+        print('unable to delete. keyword not found')
+
 elif len(sys.argv) == 2:
-    # List keywords and load content.
+    # List keywords
     if sys.argv[1].lower() == 'list':
-        pyperclip.copy(str(list(mcbShelf.keys())))
-        print(str(list(mcbShelf.keys())))
-    elif sys.argv[1] in mcbShelf:
-        pyperclip.copy(mcbShelf[sys.argv[1]])
+        pyperclip.copy(str(list(mcb_shelf.keys())))
+        print(str(list(mcb_shelf.keys())))
+
+    # Load content
+    elif sys.argv[1] in mcb_shelf:
+        pyperclip.copy(mcb_shelf[sys.argv[1]])
         print('loaded to clipboard')
 
-mcbShelf.close()
+    # Clear clipboard
+    elif sys.argv[1].lower() == 'clear':
+        user_input = input("Are you sure? Y/n ")
+        if user_input == 'Y':
+            mcb_shelf.clear()
+            print('clipboard cleared')
+        elif user_input.lower() == 'n':
+            print('operation canceled')
+        else:
+            ask_again()
+
+    else:
+        print('keyword not found')
+
+mcb_shelf.close()
