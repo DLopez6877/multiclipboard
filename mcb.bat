@@ -1,0 +1,3 @@
+@pyw.exe C:\Python34\mcb.pyw %*
+
+REM allows executable to be ran on Windows from Run...
