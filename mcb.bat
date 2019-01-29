@@ -1,1 +1,0 @@
-@py.exe E:\my_projects\pythonScripts\multiclipboard\mcb.pyw %*
