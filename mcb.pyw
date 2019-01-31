@@ -37,7 +37,6 @@ elif len(sys.argv) == 3 and sys.argv[1].lower() == 'delete':
 elif len(sys.argv) == 2:
     # List keywords
     if sys.argv[1].lower() == 'list':
-        pyperclip.copy(str(list(mcb_shelf.keys())))
         print(str(list(mcb_shelf.keys())))
 
     # Load content
