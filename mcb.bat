@@ -1,1 +1,1 @@
-@py.exe E:\my_projects\pythonScripts\multiclipboard\mcb.pyw %*
+@py.exe C:\Users\daniellopez\Tools\multiclipboard\mcb.pyw %*

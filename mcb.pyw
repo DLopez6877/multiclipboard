@@ -8,7 +8,7 @@
 
 import shelve, pyperclip, sys
 
-mcb_shelf = shelve.open('E:/my_projects/pythonScripts/multiclipboard/mcbtemp')
+mcb_shelf = shelve.open('C:/Users/daniellopez/Tools/multiclipboard/mcbtemp')
 
 # Hoisted helper function
 def ask_again():
