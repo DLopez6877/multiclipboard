@@ -25,7 +25,11 @@ def already_exists():
     # TODO: add logic to loop through terms and see if it is prexisting
     return True
 
-# Save clipboard content
+def display_help_menu():
+    # TODO: print help menu
+    print('PLACEHOLDER HELP MENU')
+
+################ Save clipboard content ################
 if len(sys.argv) == 3 and sys.argv[1].lower() == 'save':
     if already_exists():
         user_input = input("Are you sure? Y/n ")
@@ -40,7 +44,7 @@ if len(sys.argv) == 3 and sys.argv[1].lower() == 'save':
         mcb_shelf[sys.argv[2]] = pyperclip.paste()
         print('saved as:', sys.argv[2])
 
-# Delete content from clipboard
+################ Delete content from clipboard ################
 elif len(sys.argv) == 3 and sys.argv[1].lower() == 'delete':
     if sys.argv[2] in mcb_shelf:
         del mcb_shelf[sys.argv[2]]
@@ -49,16 +53,16 @@ elif len(sys.argv) == 3 and sys.argv[1].lower() == 'delete':
         print('unable to delete. keyword not found')
 
 elif len(sys.argv) == 2:
-    # List keywords
+    ################ List keywords ################
     if sys.argv[1].lower() == 'list' or sys.argv[1].lower() == 'ls':
         print(str(list(mcb_shelf.keys())))
 
-    # Load content
+    ################ Load content ################
     elif sys.argv[1] in mcb_shelf:
         pyperclip.copy(mcb_shelf[sys.argv[1]])
         print('loaded to clipboard')
     
-    # Clear clipboard
+    ################ Clear clipboard ################
     elif sys.argv[1].lower() == 'clear':
         user_input = input("Are you sure? Y/n ")
         if user_input == 'Y':
@@ -69,7 +73,11 @@ elif len(sys.argv) == 2:
         else:
             ask_again()
 
+    ################ Help Menu ################
+    elif sys.argv[1].lower() == 'help' or sys.argv[1].lower() == '--help' or sys.argv[1].lower() == '-h':
+        display_help_menu()
+
     else:
-        print('keyword not found')
+        print('Command not recognized.')
 
 mcb_shelf.close()
