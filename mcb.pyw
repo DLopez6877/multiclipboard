@@ -1,14 +1,7 @@
-#! python3
-# mcb.pyw - Saves and loads pieces of text to the clipboard.
-# Usage: py.exe mcb.pyw save <keyword> - Saves keyword to clipboard.
-#        py.exe mcb.pyw list - Loads all keywords to clipboard.
-#        py.exe mcb.pyw <keyword> - Loads keyword to clipboard.
-#        py.exe mcb.pyw delete <keyword> - Deletes content from clipboard.
-#        py.exe mcb.pyw clear - Resets clipboard.
-
 import shelve, pyperclip, sys
 
 mcb_shelf = shelve.open('C:/Users/daniellopez/Tools/multiclipboard/mcbtemp')
+
 
 # Hoisted helper functions
 def ask_again():
@@ -21,49 +14,29 @@ def ask_again():
     else:
         ask_again()
 
-def already_exists():
-    # TODO: add logic to loop through terms and see if it is prexisting
-    return True
+def already_exists(input):
+    terms_list = list(mcb_shelf.keys())
+    for term in terms_list:
+        if term == input:
+            return True
+    return False
 
 def display_help_menu():
-    # TODO: print help menu
-    print('PLACEHOLDER HELP MENU')
+    print('USAGE:\nSave keyword to multiclipboard -- mcb save <keyword>\nLoad keyword to clipboard -- mcb <keyword>\nView value of keyword -- mcb view <keyword>\nView all values saved in multiclipboard -- mcb list OR mcb ls\nDelete keyword from multipclipboard -- mcb delete <keyword> OR mcb rm <keyword>\nReset multiclipboard -- mcb reset OR mcb clear\nHelp menu -- mcb help OR mcb -h OR mcb --help')
 
-################ Save clipboard content ################
-if len(sys.argv) == 3 and sys.argv[1].lower() == 'save':
-    if already_exists():
-        user_input = input("Are you sure? Y/n ")
-        if user_input == 'Y':
-            mcb_shelf[sys.argv[2]] = pyperclip.paste()
-            print('saved as:', sys.argv[2])
-        elif user_input.lower() == 'n':
-            print('operation canceled')
-        else:
-            ask_again()
-    else:
-        mcb_shelf[sys.argv[2]] = pyperclip.paste()
-        print('saved as:', sys.argv[2])
 
-################ Delete content from clipboard ################
-elif len(sys.argv) == 3 and sys.argv[1].lower() == 'delete':
-    if sys.argv[2] in mcb_shelf:
-        del mcb_shelf[sys.argv[2]]
-        print(sys.argv[2], 'has been deleted')
-    else:
-        print('unable to delete. keyword not found')
-
-elif len(sys.argv) == 2:
-    ################ List keywords ################
+if len(sys.argv) == 2:
+################ View all values saved in multiclipboard ################
     if sys.argv[1].lower() == 'list' or sys.argv[1].lower() == 'ls':
         print(str(list(mcb_shelf.keys())))
 
-    ################ Load content ################
+################ Load keyword to clipboard ################
     elif sys.argv[1] in mcb_shelf:
         pyperclip.copy(mcb_shelf[sys.argv[1]])
         print('loaded to clipboard')
     
-    ################ Clear clipboard ################
-    elif sys.argv[1].lower() == 'clear':
+################ Reset multiclipboard ################
+    elif sys.argv[1].lower() == 'reset' or sys.argv[1].lower() == 'clear':
         user_input = input("Are you sure? Y/n ")
         if user_input == 'Y':
             mcb_shelf.clear()
@@ -73,11 +46,49 @@ elif len(sys.argv) == 2:
         else:
             ask_again()
 
-    ################ Help Menu ################
+################ Help menu ################
     elif sys.argv[1].lower() == 'help' or sys.argv[1].lower() == '--help' or sys.argv[1].lower() == '-h':
         display_help_menu()
 
     else:
+        print('Command not recognized.')
+
+
+elif len(sys.argv) == 3:
+################ Save keyword to multiclipboard ################
+    if sys.argv[1].lower() == 'save':
+        if already_exists(sys.argv[2].lower()):
+            user_input = input("Keyword already exists. Override? Y/n ")
+            if user_input == 'Y':
+                mcb_shelf[sys.argv[2]] = pyperclip.paste()
+                print('saved as:', sys.argv[2])
+            elif user_input.lower() == 'n':
+                print('operation canceled')
+            else:
+                ask_again()
+        else:
+            mcb_shelf[sys.argv[2]] = pyperclip.paste()
+            print('saved as:', sys.argv[2])
+
+################ Delete keyword from multipclipboard ################
+    elif sys.argv[1].lower() == 'delete' or sys.argv[1].lower() == 'rm':
+        if sys.argv[2] in mcb_shelf:
+            del mcb_shelf[sys.argv[2]]
+            print(sys.argv[2], 'has been deleted')
+        else:
+            print('unable to delete. keyword not found')
+
+################ View value of keyword ################
+    elif sys.argv[1].lower() == 'view':
+        if sys.argv[2] in mcb_shelf:
+            print(sys.argv[2], "=", mcb_shelf[sys.argv[2]])
+        else:
+            print('unable to view. keyword not found')
+
+    else:
+        print('Command not recognized.')
+
+else:
         print('Command not recognized.')
 
 mcb_shelf.close()
