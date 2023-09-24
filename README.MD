@@ -8,8 +8,7 @@
 * Help menu -- mcb help OR mcb -h OR mcb --help
 
 # SETUP
-1. Change the path in mcb.bat to the correct location.
-2. Change the path in mcb.pyw to the correct location.
-3. Install shelve and pyperclip via pip3.
-4. Add /multiclipboard to your path in Environment Variables.
-5. In the file "mcb.pyw" change the value of mcb_shelve to the correct location
+1. Change the path in mcb.bat to the correct path for mcb.pyw (ex: ''C:/Users/dlope/Code/multiclipboard/mcbtemp.pyw')
+2. Change the value of mcb_folder_location in mcb.pyw to where this directory is location (ex: 'C:/Users/dlope/Code')
+3. Run 'python -m pip install pyperclip' (you may need to install python).
+4. (Optional) Add /multiclipboard to your path in Environment Variables.

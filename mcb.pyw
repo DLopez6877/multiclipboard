@@ -1,7 +1,7 @@
 import shelve, pyperclip, sys
 
-mcb_shelf = shelve.open('C:/Users/daniellopez/Tools/multiclipboard/mcbtemp')
-
+mcb_folder_location = 'C:/Users/dlope/Code'
+mcb_shelf = shelve.open(mcb_folder_location + '/multiclipboard/mcbtemp.ndbm', writeback=True)
 
 # Hoisted helper functions
 def ask_again():
