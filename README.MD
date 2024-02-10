@@ -1,9 +1,9 @@
 # USAGE:
-* Save keyword to multiclipboard -- mcb save <keyword>
-* Load keyword to clipboard -- mcb <keyword>
-* View value of keyword -- mcb view <keyword>
+* Save keyword to multiclipboard -- mcb save {{keyword}}
+* Load keyword to clipboard -- mcb {{keyword}}
+* View value of keyword -- mcb view {{keyword}}
 * View all values saved in multiclipboard -- mcb list OR mcb ls
-* Delete keyword from multipclipboard -- mcb delete <keyword> OR mcb rm <keyword>
+* Delete keyword from multipclipboard -- mcb delete {{keyword}} OR mcb rm {{keyword}}
 * Reset multiclipboard -- mcb reset OR mcb clear
 * Help menu -- mcb help OR mcb -h OR mcb --help
 
